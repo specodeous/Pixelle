@@ -1,0 +1,313 @@
+
+{% extends "base.html" %}
+
+{% block title %}Dashboard · Pixelle{% endblock %}
+
+
+{% block content %}
+
+<section class="dashboard">
+
+    <div class="container">
+
+        <!-- =================================================
+             DASHBOARD HEADER
+             ================================================= -->
+
+        <div class="dashboard-header">
+
+            <div>
+
+                <span class="eyebrow">
+                    PHOTOGRAPHER WORKSPACE
+                </span>
+
+                <h1>
+                    Your events.
+                </h1>
+
+                <p>
+                    Create events, upload photographs and
+                    organize every collection in one place.
+                </p>
+
+            </div>
+
+
+            <div class="dashboard-actions">
+
+                <a
+                    href="{{ url_for('new_event') }}"
+                    class="btn primary"
+                >
+                    + New Event
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             EVENT COLLECTION
+             ================================================= -->
+
+        {% if events %}
+
+            <div class="section-head">
+
+                <div>
+
+                    <span class="eyebrow">
+                        YOUR COLLECTIONS
+                    </span>
+
+                    <h2>
+                        Event galleries
+                    </h2>
+
+                </div>
+
+                <span class="muted">
+                    {{ events|length }}
+                    event{% if events|length != 1 %}s{% endif %}
+                </span>
+
+            </div>
+
+
+            <div class="event-grid">
+
+                {% for event in events %}
+
+                    <article class="event-card">
+
+                        <!-- Event visual -->
+
+                        <div class="event-card-image">
+
+                            <div class="event-card-placeholder">
+                                ✦
+                            </div>
+
+                        </div>
+
+
+                        <!-- Event information -->
+
+                        <div class="event-card-body">
+
+                            <h3>
+                                {{ event.title }}
+                            </h3>
+
+                            {% if event.event_date %}
+
+                                <p>
+                                    {{ event.event_date }}
+                                </p>
+
+                            {% else %}
+
+                                <p>
+                                    Event gallery
+                                </p>
+
+                            {% endif %}
+
+
+                            <div class="event-card-footer">
+
+                                <span class="muted">
+                                    Event #{{ event.id }}
+                                </span>
+
+                                <a
+                                    href="{{ url_for(
+                                        'event_detail',
+                                        event_id=event.id
+                                    ) }}"
+                                    class="btn ghost"
+                                >
+                                    Open →
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                {% endfor %}
+
+            </div>
+
+
+        {% else %}
+
+            <!-- =================================================
+                 EMPTY DASHBOARD
+                 ================================================= -->
+
+            <div
+                style="
+                    padding:80px 30px;
+                    border:1px dashed var(--border-gold);
+                    border-radius:18px;
+                    background:
+                        linear-gradient(
+                            145deg,
+                            rgba(214,180,122,0.05),
+                            rgba(255,255,255,0.015)
+                        );
+                    text-align:center;
+                "
+            >
+
+                <div
+                    style="
+                        width:70px;
+                        height:70px;
+                        margin:0 auto 20px;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        border-radius:50%;
+                        background:rgba(214,180,122,0.09);
+                        color:var(--gold);
+                        font-size:30px;
+                    "
+                >
+                    ✦
+                </div>
+
+
+                <span class="eyebrow">
+                    YOUR PIXELLE SPACE
+                </span>
+
+
+                <h2 style="margin-bottom:12px;">
+                    Your first event starts here.
+                </h2>
+
+
+                <p
+                    style="
+                        max-width:520px;
+                        margin:0 auto 25px;
+                    "
+                >
+                    Create an event to start building your
+                    searchable photo collection. Once you
+                    upload photographs, Pixelle will index
+                    the faces inside them.
+                </p>
+
+
+                <a
+                    href="{{ url_for('new_event') }}"
+                    class="btn primary"
+                >
+                    Create Your First Event →
+                </a>
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- =================================================
+             QUICK INFORMATION
+             ================================================= -->
+
+        <section
+            style="
+                margin-top:80px;
+                padding-top:35px;
+                border-top:1px solid var(--border);
+            "
+        >
+
+            <div class="section-head">
+
+                <div>
+
+                    <span class="eyebrow">
+                        PIXELLE WORKFLOW
+                    </span>
+
+                    <h2>
+                        From event to memories.
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="feature-grid">
+
+                <article class="feature-card">
+
+                    <div class="feature-icon">
+                        01
+                    </div>
+
+                    <h3>
+                        Create an event
+                    </h3>
+
+                    <p>
+                        Add your event details and create a
+                        dedicated private photo collection.
+                    </p>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <div class="feature-icon">
+                        02
+                    </div>
+
+                    <h3>
+                        Upload photos
+                    </h3>
+
+                    <p>
+                        Upload the photographs captured during
+                        your event and let Pixelle process them.
+                    </p>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <div class="feature-icon">
+                        03
+                    </div>
+
+                    <h3>
+                        Share & discover
+                    </h3>
+
+                    <p>
+                        Share the event gallery with guests so
+                        they can search for their own moments
+                        using a selfie.
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</section>
+
+{% endblock %}

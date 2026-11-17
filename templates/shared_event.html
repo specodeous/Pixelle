@@ -1,0 +1,307 @@
+
+{% extends "base.html" %}
+
+{% block title %}Find Your Photos · {{ event.title }}{% endblock %}
+
+{% block content %}
+
+<section class="client-page">
+
+    <!-- HERO -->
+    <div class="client-hero">
+
+        <div class="client-hero-content">
+
+            <span class="eyebrow">PRIVATE EVENT GALLERY</span>
+
+            <h1>
+                Find the moments
+                <em>you're in.</em>
+            </h1>
+
+            <p>
+                Upload one clear selfie and Pixelle will search
+                this event's photographs for photos that may
+                feature you.
+            </p>
+
+        </div>
+
+        <div class="client-event-name">
+            <span>EVENT</span>
+            <strong>{{ event.title }}</strong>
+
+            {% if event.event_date %}
+                <small>{{ event.event_date }}</small>
+            {% endif %}
+        </div>
+
+    </div>
+
+
+    <!-- SEARCH CARD -->
+    <section class="client-search-card">
+
+        <div class="search-card-heading">
+
+            <div class="search-step">
+                <span>01</span>
+            </div>
+
+            <div>
+                <span class="eyebrow">YOUR SELFIE</span>
+
+                <h2>Upload a clear photo of yourself</h2>
+
+                <p class="muted">
+                    A front-facing image with one visible face
+                    usually gives the best results.
+                </p>
+            </div>
+
+        </div>
+
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+            class="selfie-form"
+        >
+
+            <label class="selfie-dropzone">
+
+                <input
+                    type="file"
+                    name="selfie"
+                    accept="image/*"
+                    required
+                    onchange="previewSelfie(this)"
+                >
+
+                <div
+                    class="selfie-preview"
+                    id="selfiePreview"
+                >
+
+                    <div class="selfie-icon">
+                        ♡
+                    </div>
+
+                    <strong>
+                        Choose your selfie
+                    </strong>
+
+                    <span>
+                        Click here to browse your device
+                    </span>
+
+                    <small>
+                        JPG, JPEG or PNG
+                    </small>
+
+                </div>
+
+            </label>
+
+
+            <div class="selfie-tips">
+
+                <div class="tip">
+                    <span>✓</span>
+                    <p>Use a clear face</p>
+                </div>
+
+                <div class="tip">
+                    <span>✓</span>
+                    <p>Face the camera</p>
+                </div>
+
+                <div class="tip">
+                    <span>✓</span>
+                    <p>Use one person</p>
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="btn primary search-button"
+            >
+                Find My Photos →
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- HOW IT WORKS -->
+    <section class="client-how">
+
+        <div class="client-section-heading">
+
+            <span class="eyebrow">HOW IT WORKS</span>
+
+            <h2>
+                Your memories are
+                <em>one search away.</em>
+            </h2>
+
+        </div>
+
+
+        <div class="client-steps">
+
+            <div class="client-step">
+
+                <span class="client-step-number">
+                    01
+                </span>
+
+                <div class="client-step-icon">
+                    ↑
+                </div>
+
+                <h3>Upload</h3>
+
+                <p>
+                    Choose one selfie from your phone,
+                    laptop or tablet.
+                </p>
+
+            </div>
+
+
+            <div class="client-step">
+
+                <span class="client-step-number">
+                    02
+                </span>
+
+                <div class="client-step-icon">
+                    ◉
+                </div>
+
+                <h3>We Compare</h3>
+
+                <p>
+                    Pixelle compares your face with
+                    indexed faces in this event.
+                </p>
+
+            </div>
+
+
+            <div class="client-step">
+
+                <span class="client-step-number">
+                    03
+                </span>
+
+                <div class="client-step-icon">
+                    ✦
+                </div>
+
+                <h3>See Your Photos</h3>
+
+                <p>
+                    Matching photographs appear ranked
+                    by face similarity.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PRIVACY -->
+    <section class="client-privacy">
+
+        <div class="privacy-icon">
+            ◇
+        </div>
+
+        <div>
+
+            <span class="eyebrow">
+                PRIVATE EVENT SEARCH
+            </span>
+
+            <h3>Your search stays within this event.</h3>
+
+            <p>
+                This student project searches only the photographs
+                belonging to this private event collection.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER CTA -->
+    <section class="client-footer-cta">
+
+        <span class="eyebrow">
+            POWERED BY PIXELLE
+        </span>
+
+        <h2>
+            Every event has
+            <em>a story.</em>
+        </h2>
+
+        <p>
+            Find the moments that belong to you.
+        </p>
+
+    </section>
+
+</section>
+
+
+<script>
+
+function previewSelfie(input) {
+
+    const preview = document.getElementById("selfiePreview");
+
+    if (!input.files || input.files.length === 0) {
+        return;
+    }
+
+    const file = input.files[0];
+
+    if (!file.type.startsWith("image/")) {
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+
+        preview.innerHTML = `
+            <img
+                src="${event.target.result}"
+                alt="Selected selfie preview"
+                class="selfie-preview-image"
+            >
+
+            <div class="selfie-selected-info">
+                <strong>${file.name}</strong>
+                <span>Selfie selected ✓</span>
+            </div>
+        `;
+
+    };
+
+    reader.readAsDataURL(file);
+
+}
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,347 @@
+
+{% extends "base.html" %}
+
+{% block title %}Create Event · Pixelle{% endblock %}
+
+
+{% block content %}
+
+<section class="form-page">
+
+    <!-- =================================================
+         PAGE HEADER
+         ================================================= -->
+
+    <div class="form-page-header">
+
+        <span class="eyebrow">
+            NEW COLLECTION
+        </span>
+
+        <h1>
+            Create an event.
+        </h1>
+
+        <p>
+            Set up your event before uploading its photographs.
+            Your event will become a private, searchable photo
+            collection.
+        </p>
+
+    </div>
+
+
+    <!-- =================================================
+         EVENT FORM
+         ================================================= -->
+
+    <div class="form-card">
+
+        <form method="POST">
+
+
+            <!-- Event name -->
+
+            <div class="form-group">
+
+                <label for="title">
+                    Event name
+                </label>
+
+                <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    placeholder="e.g. Annual College Fest 2026"
+                    required
+                    autocomplete="off"
+                >
+
+                <p
+                    class="muted"
+                    style="
+                        margin-top:7px;
+                        font-size:12px;
+                    "
+                >
+                    Choose a name your guests will easily recognize.
+                </p>
+
+            </div>
+
+
+            <!-- Event date -->
+
+            <div class="form-group">
+
+                <label for="event_date">
+                    Event date
+                </label>
+
+                <input
+                    type="date"
+                    id="event_date"
+                    name="event_date"
+                >
+
+                <p
+                    class="muted"
+                    style="
+                        margin-top:7px;
+                        font-size:12px;
+                    "
+                >
+                    This helps keep your event collections organized.
+                </p>
+
+            </div>
+
+
+            <!-- Optional description -->
+
+            <div class="form-group">
+
+                <label for="description">
+                    Description
+                    <span
+                        style="
+                            color:var(--muted);
+                            font-weight:400;
+                        "
+                    >
+                        · optional
+                    </span>
+                </label>
+
+                <textarea
+                    id="description"
+                    name="description"
+                    placeholder="Add a short description about this event..."
+                    rows="5"
+                ></textarea>
+
+            </div>
+
+
+            <!-- =================================================
+                 INFORMATION BOX
+                 ================================================= -->
+
+            <div
+                style="
+                    margin-top:25px;
+                    padding:18px;
+                    border:1px solid var(--border-gold);
+                    border-radius:12px;
+                    background:rgba(214,180,122,0.045);
+                    display:flex;
+                    gap:14px;
+                    align-items:flex-start;
+                "
+            >
+
+                <div
+                    style="
+                        width:38px;
+                        height:38px;
+                        min-width:38px;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        border-radius:10px;
+                        background:rgba(214,180,122,0.10);
+                        color:var(--gold);
+                        font-size:17px;
+                    "
+                >
+                    ✦
+                </div>
+
+                <div>
+
+                    <strong
+                        style="
+                            display:block;
+                            margin-bottom:4px;
+                            color:var(--text);
+                            font-size:14px;
+                        "
+                    >
+                        What happens next?
+                    </strong>
+
+                    <p
+                        style="
+                            font-size:12px;
+                            line-height:1.65;
+                        "
+                    >
+                        After creating the event, you can upload
+                        your photographs. Pixelle will detect faces
+                        and create searchable face data for the
+                        event.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 FORM ACTIONS
+                 ================================================= -->
+
+            <div class="form-actions">
+
+                <a
+                    href="{{ url_for('dashboard') }}"
+                    class="btn ghost"
+                >
+                    ← Cancel
+                </a>
+
+                <button
+                    type="submit"
+                    class="btn primary"
+                >
+                    Create Event →
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+
+    <!-- =================================================
+         SMALL WORKFLOW
+         ================================================= -->
+
+    <div
+        style="
+            margin-top:40px;
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:12px;
+        "
+    >
+
+        <div
+            style="
+                padding:18px;
+                border:1px solid var(--border);
+                border-radius:12px;
+                background:var(--surface);
+            "
+        >
+
+            <span
+                style="
+                    color:var(--gold);
+                    font-size:11px;
+                    font-weight:700;
+                    letter-spacing:.12em;
+                "
+            >
+                STEP 01
+            </span>
+
+            <p
+                style="
+                    margin-top:7px;
+                    font-size:13px;
+                "
+            >
+                Create your event
+            </p>
+
+        </div>
+
+
+        <div
+            style="
+                padding:18px;
+                border:1px solid var(--border);
+                border-radius:12px;
+                background:var(--surface);
+            "
+        >
+
+            <span
+                style="
+                    color:var(--gold);
+                    font-size:11px;
+                    font-weight:700;
+                    letter-spacing:.12em;
+                "
+            >
+                STEP 02
+            </span>
+
+            <p
+                style="
+                    margin-top:7px;
+                    font-size:13px;
+                "
+            >
+                Upload photographs
+            </p>
+
+        </div>
+
+
+        <div
+            style="
+                padding:18px;
+                border:1px solid var(--border);
+                border-radius:12px;
+                background:var(--surface);
+            "
+        >
+
+            <span
+                style="
+                    color:var(--gold);
+                    font-size:11px;
+                    font-weight:700;
+                    letter-spacing:.12em;
+                "
+            >
+                STEP 03
+            </span>
+
+            <p
+                style="
+                    margin-top:7px;
+                    font-size:13px;
+                "
+            >
+                Find your moments
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     MOBILE ADJUSTMENT FOR WORKFLOW
+     ===================================================== -->
+
+<style>
+
+@media (max-width: 650px) {
+
+    .form-page > div:last-child {
+        grid-template-columns: 1fr !important;
+    }
+
+}
+
+</style>
+
+{% endblock %}

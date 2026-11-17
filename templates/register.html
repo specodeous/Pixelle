@@ -1,0 +1,245 @@
+{% extends "base.html" %}
+
+{% block title %}Create Account · Pixelle{% endblock %}
+
+{% block content %}
+
+<section class="auth-page">
+
+<div class="auth-shell">
+
+    <!-- LEFT: BRAND / VISUAL -->
+    <div class="auth-visual">
+
+        <div class="auth-visual-content">
+
+            <a href="{{ url_for('index') }}" class="auth-brand">
+                <span class="auth-brand-star">✦</span>
+                <span>Pixelle</span>
+            </a>
+
+            <div class="auth-quote">
+
+                <span class="eyebrow">START YOUR GALLERY</span>
+
+                <h1>
+                    Turn event photos
+                    <em>into memories.</em>
+                </h1>
+
+                <p>
+                    Create your Pixelle account and build private
+                    event galleries where guests can easily find
+                    the photographs they're part of.
+                </p>
+
+            </div>
+
+            <div class="auth-mini-features">
+
+                <div class="auth-mini-feature">
+                    <span>01</span>
+                    <div>
+                        <strong>Create Events</strong>
+                        <small>Give every occasion its own gallery.</small>
+                    </div>
+                </div>
+
+                <div class="auth-mini-feature">
+                    <span>02</span>
+                    <div>
+                        <strong>Index Faces</strong>
+                        <small>Let Pixelle organize faces automatically.</small>
+                    </div>
+                </div>
+
+                <div class="auth-mini-feature">
+                    <span>03</span>
+                    <div>
+                        <strong>Share Privately</strong>
+                        <small>Send guests one simple event link.</small>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="auth-visual-footer">
+            <span>PIXELLE</span>
+            <span>PYTHON · FLASK · OPENCV</span>
+        </div>
+
+    </div>
+
+
+    <!-- RIGHT: REGISTER FORM -->
+    <div class="auth-form-side">
+
+        <div class="auth-form-container">
+
+            <div class="auth-mobile-brand">
+
+                <a href="{{ url_for('index') }}" class="auth-brand">
+                    <span class="auth-brand-star">✦</span>
+                    <span>Pixelle</span>
+                </a>
+
+            </div>
+
+
+            <div class="auth-heading">
+
+                <span class="eyebrow">CREATE YOUR ACCOUNT</span>
+
+                <h2>
+                    Welcome to
+                    <em>Pixelle.</em>
+                </h2>
+
+                <p>
+                    Create your account to start managing
+                    your event memories.
+                </p>
+
+            </div>
+
+
+            <form method="POST" class="auth-form">
+
+                <!-- NAME -->
+                <div class="auth-field">
+
+                    <label for="name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Your name"
+                        autocomplete="name"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+                <div class="auth-field">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PASSWORD -->
+                <div class="auth-field">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <div class="password-wrapper">
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="At least 6 characters"
+                            autocomplete="new-password"
+                            minlength="6"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            onclick="toggleRegisterPassword()"
+                            aria-label="Show password"
+                        >
+                            ◉
+                        </button>
+
+                    </div>
+
+                    <span class="auth-field-help">
+                        Use at least 6 characters for your password.
+                    </span>
+
+                </div>
+
+
+                <!-- SUBMIT -->
+                <button
+                    type="submit"
+                    class="btn primary auth-submit"
+                >
+                    Create Account
+                    <span>→</span>
+                </button>
+
+            </form>
+
+
+            <div class="auth-divider">
+                <span>ALREADY HAVE AN ACCOUNT?</span>
+            </div>
+
+
+            <div class="auth-register">
+
+                <p>
+                    Already registered?
+                    <a href="{{ url_for('login') }}">
+                        Sign in
+                    </a>
+                </p>
+
+            </div>
+
+
+            <div class="auth-back">
+
+                <a href="{{ url_for('index') }}">
+                    ← Back to Pixelle
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+<script>
+function toggleRegisterPassword() {
+    const password = document.getElementById("password");
+    const button = document.querySelector(".password-toggle");
+
+    if (password.type === "password") {
+        password.type = "text";
+        button.setAttribute("aria-label", "Hide password");
+    } else {
+        password.type = "password";
+        button.setAttribute("aria-label", "Show password");
+    }
+}
+</script>
+
+{% endblock %}

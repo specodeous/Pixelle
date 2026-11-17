@@ -1,0 +1,290 @@
+
+{% extends "base.html" %}
+
+{% block title %}Your Matches · {{ event.title }}{% endblock %}
+
+{% block content %}
+
+<section class="results-page">
+
+    <!-- RESULTS HEADER -->
+    <div class="results-header">
+
+        <div class="results-heading">
+
+            <span class="eyebrow">YOUR MOMENTS</span>
+
+            <h1>
+                {% if matches|length > 0 %}
+                    We found
+                    <em>{{ matches|length }}
+                    {% if matches|length == 1 %}
+                        moment
+                    {% else %}
+                        moments
+                    {% endif %}
+                    </em>
+                    for you.
+                {% else %}
+                    No strong matches
+                    <em>yet.</em>
+                {% endif %}
+            </h1>
+
+            <p>
+                {% if matches|length > 0 %}
+                    These photographs were ranked by face similarity.
+                    Take a look through them and download the moments
+                    you want to keep.
+                {% else %}
+                    We couldn't find a strong match in this event.
+                    Try another clear, front-facing selfie.
+                {% endif %}
+            </p>
+
+        </div>
+
+
+        <div class="results-actions">
+
+            <a
+                href="{{ url_for('shared_event', token=token) }}"
+                class="btn ghost"
+            >
+                ← Search Again
+            </a>
+
+        </div>
+
+    </div>
+
+
+    {% if matches %}
+
+    <!-- RESULT SUMMARY -->
+    <div class="result-summary">
+
+        <div class="result-summary-item">
+
+            <span class="summary-icon">✦</span>
+
+            <div>
+                <strong>{{ matches|length }}</strong>
+                <span>Potential Matches</span>
+            </div>
+
+        </div>
+
+
+        <div class="result-summary-divider"></div>
+
+
+        <div class="result-summary-item">
+
+            <span class="summary-icon">◎</span>
+
+            <div>
+                <strong>AI</strong>
+                <span>Face Similarity Search</span>
+            </div>
+
+        </div>
+
+
+        <div class="result-summary-divider"></div>
+
+
+        <div class="result-summary-item">
+
+            <span class="summary-icon">◇</span>
+
+            <div>
+                <strong>{{ event.title }}</strong>
+                <span>Private Event</span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PHOTO RESULTS -->
+    <section class="results-gallery">
+
+        <div class="results-gallery-head">
+
+            <div>
+
+                <span class="eyebrow">
+                    MATCHED PHOTOGRAPHS
+                </span>
+
+                <h2>Your moments</h2>
+
+            </div>
+
+            <span class="results-count">
+                {{ matches|length }}
+                {% if matches|length == 1 %}
+                    RESULT
+                {% else %}
+                    RESULTS
+                {% endif %}
+            </span>
+
+        </div>
+
+
+        <div class="results-grid">
+
+            {% for m in matches %}
+
+            <article class="result-card">
+
+                <div class="result-image">
+
+                    <img
+                        src="{{ url_for(
+                            'event_media',
+                            event_id=event.id,
+                            filename=m.filename
+                        ) }}"
+                        alt="Potential matching event photo"
+                        loading="lazy"
+                    >
+
+                    <div class="similarity-badge">
+
+                        <span>SIMILARITY</span>
+
+                        <strong>
+                            {{ '%.0f'|format(m.score * 100) }}%
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="result-card-info">
+
+                    <div class="result-card-text">
+
+                        <span class="result-label">
+                            POTENTIAL MATCH
+                        </span>
+
+                        <h3>
+                            Your Event Moment
+                        </h3>
+
+                    </div>
+
+
+                    <a
+                        href="{{ url_for(
+                            'download_photo',
+                            event_id=event.id,
+                            filename=m.filename
+                        ) }}"
+                        class="download-button"
+                    >
+                        <span>↓</span>
+                        Download
+                    </a>
+
+                </div>
+
+            </article>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+    <!-- CONFIRMATION NOTE -->
+    <section class="results-note">
+
+        <div class="results-note-icon">
+            ✓
+        </div>
+
+        <div>
+
+            <span class="eyebrow">
+                BEFORE YOU DOWNLOAD
+            </span>
+
+            <h3>
+                Please visually confirm your matches.
+            </h3>
+
+            <p>
+                Face similarity is not perfect. A high similarity
+                score means the photograph is a potential match,
+                but you should always check the image yourself.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    {% else %}
+
+    <!-- EMPTY RESULTS -->
+    <section class="no-results-card">
+
+        <div class="no-results-icon">
+            ◌
+        </div>
+
+        <span class="eyebrow">
+            NO STRONG MATCH FOUND
+        </span>
+
+        <h2>
+            Let's try that again.
+        </h2>
+
+        <p>
+            Try uploading a clear, front-facing selfie with only
+            one person visible. Good lighting and a clearly visible
+            face usually produce better results.
+        </p>
+
+        <a
+            href="{{ url_for('shared_event', token=token) }}"
+            class="btn primary"
+        >
+            Upload Another Selfie →
+        </a>
+
+    </section>
+
+    {% endif %}
+
+
+    <!-- BOTTOM CTA -->
+    <section class="results-footer">
+
+        <span class="eyebrow">
+            {{ event.title }}
+        </span>
+
+        <h2>
+            Keep the moments
+            <em>that matter.</em>
+        </h2>
+
+        <p>
+            Powered by Pixelle · Python + Flask + OpenCV
+        </p>
+
+    </section>
+
+</section>
+
+{% endblock %}

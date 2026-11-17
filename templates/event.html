@@ -1,0 +1,439 @@
+
+{% extends "base.html" %}
+
+{% block title %}{{ event.title }} · Pixelle{% endblock %}
+
+{% block content %}
+
+<section class="event-page">
+
+    <!-- TOP HEADER -->
+    <div class="event-top">
+
+        <div class="event-heading">
+
+            <a href="{{ url_for('dashboard') }}" class="back-link">
+                ← Back to Dashboard
+            </a>
+
+            <span class="eyebrow">EVENT WORKSPACE</span>
+
+            <h1>{{ event.title }}</h1>
+
+            {% if event.description %}
+                <p class="event-description">
+                    {{ event.description }}
+                </p>
+            {% endif %}
+
+            {% if event.event_date %}
+                <p class="event-date">
+                    {{ event.event_date }}
+                </p>
+            {% endif %}
+
+        </div>
+
+        <div class="event-share-box">
+
+            <span class="share-label">CLIENT SEARCH LINK</span>
+
+            <p>
+                Share this link with guests so they can find their photos.
+            </p>
+
+            <div class="share-link-row">
+
+                <input
+                    type="text"
+                    id="shareLink"
+                    value="{{ url_for('shared_event', token=event.share_token, _external=True) }}"
+                    readonly
+                >
+
+                <button
+                    type="button"
+                    class="btn primary"
+                    onclick="copyShareLink()"
+                >
+                    Copy
+                </button>
+
+            </div>
+
+            <a
+                href="{{ url_for('shared_event', token=event.share_token) }}"
+                target="_blank"
+                class="share-preview"
+            >
+                Open client page ↗
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- STATS -->
+    <div class="event-stats">
+
+        <div class="stat-card">
+            <span class="stat-icon">▣</span>
+            <div>
+                <strong>{{ photo_count }}</strong>
+                <span>Photos</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <span class="stat-icon">◉</span>
+            <div>
+                <strong>{{ face_count }}</strong>
+                <span>Faces Indexed</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <span class="stat-icon">⌕</span>
+            <div>
+                <strong>{{ search_count }}</strong>
+                <span>Client Searches</span>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- UPLOAD SECTION -->
+    <section class="workspace-card upload-section">
+
+        <div class="section-heading">
+
+            <div>
+                <span class="eyebrow">BUILD YOUR GALLERY</span>
+                <h2>Upload Event Photos</h2>
+                <p class="muted">
+                    Upload one or multiple event photographs. Pixelle will
+                    automatically detect and index faces using OpenCV.
+                </p>
+            </div>
+
+        </div>
+
+        <form
+            method="POST"
+            action="{{ url_for('upload_photos', event_id=event.id) }}"
+            enctype="multipart/form-data"
+            class="upload-form"
+        >
+
+            <label class="upload-dropzone">
+
+                <input
+                    type="file"
+                    name="photos"
+                    accept="image/*"
+                    multiple
+                    required
+                    onchange="showSelectedFiles(this)"
+                >
+
+                <div class="upload-icon">＋</div>
+
+                <strong>Choose event photos</strong>
+
+                <span>
+                    Click to browse or select multiple images
+                </span>
+
+                <small>
+                    JPG, JPEG, PNG and other common image formats
+                </small>
+
+                <div id="selectedFiles" class="selected-files"></div>
+
+            </label>
+
+            <button type="submit" class="btn primary upload-button">
+                Upload & Index Photos →
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- GALLERY -->
+    <section class="workspace-card gallery-section">
+
+        <div class="gallery-head">
+
+            <div>
+                <span class="eyebrow">PHOTO GALLERY</span>
+
+                <h2>Event Photos</h2>
+
+                <p class="muted">
+                    {{ photos|length }} photo{% if photos|length != 1 %}s{% endif %}
+                    uploaded to this event.
+                </p>
+            </div>
+
+            {% if photos %}
+                <span class="gallery-count">
+                    {{ photos|length }} TOTAL
+                </span>
+            {% endif %}
+
+        </div>
+
+
+        <div class="photo-gallery">
+
+            {% for p in photos %}
+
+            <article class="gallery-card">
+
+                <div class="gallery-image">
+
+                    <img
+                        src="{{ url_for(
+                            'event_media',
+                            event_id=event.id,
+                            filename=p.filename
+                        ) }}"
+                        alt="Event photo"
+                        loading="lazy"
+                    >
+
+                    {% if p.processed %}
+                        <span class="image-badge indexed">
+                            ✓ Indexed
+                        </span>
+                    {% else %}
+                        <span class="image-badge pending">
+                            Pending
+                        </span>
+                    {% endif %}
+
+                </div>
+
+
+                <div class="gallery-info">
+
+                    <div class="photo-details">
+
+                        <strong>
+                            {{ p.original_name or 'Event Photo' }}
+                        </strong>
+
+                        <span>
+                            {{ p.face_count }} face{% if p.face_count != 1 %}s{% endif %}
+                            detected
+                        </span>
+
+                    </div>
+
+
+                    <div class="gallery-actions">
+
+                        <a
+                            class="btn ghost"
+                            href="{{ url_for(
+                                'download_photo',
+                                event_id=event.id,
+                                filename=p.filename
+                            ) }}"
+                        >
+                            ↓ Download
+                        </a>
+
+
+                        <form
+                            method="POST"
+                            action="{{ url_for(
+                                'delete_photo',
+                                event_id=event.id,
+                                photo_id=p.id
+                            ) }}"
+                            onsubmit="return confirm(
+                                'Delete this photo? Its face data will also be removed.'
+                            );"
+                        >
+
+                            <button
+                                type="submit"
+                                class="btn danger"
+                            >
+                                🗑 Delete
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+            {% else %}
+
+            <div class="empty-gallery">
+
+                <div class="empty-gallery-icon">
+                    ✦
+                </div>
+
+                <h3>Your gallery is empty</h3>
+
+                <p class="muted">
+                    Upload your first event photos above and Pixelle
+                    will automatically index the faces.
+                </p>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+    <!-- HOW IT WORKS -->
+    <section class="event-workflow">
+
+        <div class="workflow-heading">
+
+            <span class="eyebrow">PIXELLE WORKFLOW</span>
+
+            <h2>From event photos to personal memories.</h2>
+
+        </div>
+
+
+        <div class="workflow-grid">
+
+            <div class="workflow-card">
+
+                <span class="workflow-number">01</span>
+
+                <h3>Upload</h3>
+
+                <p>
+                    Add all photographs from your event to create
+                    the private event gallery.
+                </p>
+
+            </div>
+
+
+            <div class="workflow-card">
+
+                <span class="workflow-number">02</span>
+
+                <h3>Index</h3>
+
+                <p>
+                    OpenCV detects faces and creates numerical
+                    face embeddings for each detected person.
+                </p>
+
+            </div>
+
+
+            <div class="workflow-card">
+
+                <span class="workflow-number">03</span>
+
+                <h3>Find</h3>
+
+                <p>
+                    Guests upload a selfie through the private
+                    client link and Pixelle finds matching photos.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</section>
+
+
+<script>
+
+function copyShareLink() {
+
+    const input = document.getElementById("shareLink");
+
+    navigator.clipboard.writeText(input.value).then(function () {
+
+        const button = document.querySelector(
+            ".share-link-row button"
+        );
+
+        const originalText = button.innerText;
+
+        button.innerText = "Copied ✓";
+
+        setTimeout(function () {
+            button.innerText = originalText;
+        }, 1800);
+
+    }).catch(function () {
+
+        input.select();
+        document.execCommand("copy");
+
+        const button = document.querySelector(
+            ".share-link-row button"
+        );
+
+        button.innerText = "Copied ✓";
+
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 1800);
+
+    });
+
+}
+
+
+function showSelectedFiles(input) {
+
+    const container = document.getElementById("selectedFiles");
+
+    if (!input.files || input.files.length === 0) {
+        container.innerHTML = "";
+        return;
+    }
+
+    let html = "";
+
+    if (input.files.length === 1) {
+
+        html =
+            "<span>" +
+            input.files[0].name +
+            "</span>";
+
+    } else {
+
+        html =
+            "<span>" +
+            input.files.length +
+            " photos selected" +
+            "</span>";
+
+    }
+
+    container.innerHTML = html;
+
+}
+
+</script>
+
+{% endblock %}

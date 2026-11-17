@@ -1,0 +1,438 @@
+{% extends "base.html" %}
+
+{% block title %}Pixelle · Find Your Moments{% endblock %}
+
+
+{% block content %}
+
+<!-- =====================================================
+     HERO SECTION
+     ===================================================== -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <span class="eyebrow">
+            YOUR EVENT · YOUR MEMORIES
+        </span>
+
+        <h1>
+            Find every<br>
+            <em>moment you're in.</em>
+        </h1>
+
+        <p>
+            Pixelle makes it easy to find your personal moments
+            from large event photo collections. Upload event photos,
+            let our face recognition system index them, and discover
+            every photo you're in with just one selfie.
+        </p>
+
+        <div class="hero-actions">
+
+            {% if session.get('user_id') %}
+
+                <a
+                    href="{{ url_for('dashboard') }}"
+                    class="btn primary"
+                >
+                    Go to Dashboard →
+                </a>
+
+            {% else %}
+
+                <a
+                    href="{{ url_for('register') }}"
+                    class="btn primary"
+                >
+                    Create Your Gallery →
+                </a>
+
+                <a
+                    href="{{ url_for('login') }}"
+                    class="btn ghost"
+                >
+                    Login
+                </a>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- =================================================
+             VISUAL PREVIEW
+             ================================================= -->
+
+        <div class="hero-visual">
+
+            <div class="hero-photo">
+
+                <div
+                    style="
+                        width:100%;
+                        height:100%;
+                        min-height:300px;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        flex-direction:column;
+                        gap:12px;
+                        background:
+                            radial-gradient(
+                                circle at 30% 20%,
+                                rgba(214,180,122,0.18),
+                                transparent 35%
+                            ),
+                            linear-gradient(
+                                135deg,
+                                #24211c,
+                                #101011
+                            );
+                    "
+                >
+
+                    <span
+                        style="
+                            font-size:52px;
+                            color:#d6b47a;
+                        "
+                    >
+                        ✦
+                    </span>
+
+                    <span
+                        style="
+                            color:#f4f1eb;
+                            font-family:'Playfair Display',serif;
+                            font-size:24px;
+                        "
+                    >
+                        Your moments.
+                    </span>
+
+                    <span
+                        style="
+                            color:#96918a;
+                            font-size:12px;
+                            letter-spacing:0.12em;
+                            text-transform:uppercase;
+                        "
+                    >
+                        Beautifully found
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div
+                style="
+                    display:grid;
+                    grid-template-rows:1fr 1fr;
+                    gap:12px;
+                "
+            >
+
+                <div class="hero-photo small">
+
+                    <div
+                        style="
+                            width:100%;
+                            height:100%;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            background:
+                                linear-gradient(
+                                    145deg,
+                                    #30291f,
+                                    #141414
+                                );
+                        "
+                    >
+
+                        <div
+                            style="
+                                text-align:center;
+                                padding:20px;
+                            "
+                        >
+
+                            <div
+                                style="
+                                    color:#d6b47a;
+                                    font-size:30px;
+                                    margin-bottom:8px;
+                                "
+                            >
+                                ◎
+                            </div>
+
+                            <div
+                                style="
+                                    color:#f4f1eb;
+                                    font-family:'Playfair Display',serif;
+                                    font-size:19px;
+                                "
+                            >
+                                Upload
+                            </div>
+
+                            <div
+                                style="
+                                    color:#96918a;
+                                    font-size:11px;
+                                    margin-top:4px;
+                                "
+                            >
+                                Event photos
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="hero-photo small">
+
+                    <div
+                        style="
+                            width:100%;
+                            height:100%;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            background:
+                                linear-gradient(
+                                    145deg,
+                                    #1e2523,
+                                    #111212
+                                );
+                        "
+                    >
+
+                        <div
+                            style="
+                                text-align:center;
+                                padding:20px;
+                            "
+                        >
+
+                            <div
+                                style="
+                                    color:#d6b47a;
+                                    font-size:30px;
+                                    margin-bottom:8px;
+                                "
+                            >
+                                ♡
+                            </div>
+
+                            <div
+                                style="
+                                    color:#f4f1eb;
+                                    font-family:'Playfair Display',serif;
+                                    font-size:19px;
+                                "
+                            >
+                                Discover
+                            </div>
+
+                            <div
+                                style="
+                                    color:#96918a;
+                                    font-size:11px;
+                                    margin-top:4px;
+                                "
+                            >
+                                Your photos
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     FEATURES
+     ===================================================== -->
+
+<section class="features">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <span class="eyebrow">
+                    HOW PIXELLE WORKS
+                </span>
+
+                <h2>
+                    From thousands of photos<br>
+                    to your moments.
+                </h2>
+
+            </div>
+
+            <p>
+                Designed for college events, celebrations,
+                fests and gatherings where one photographer
+                can capture hundreds of memories.
+            </p>
+
+        </div>
+
+
+        <div class="feature-grid">
+
+
+            <!-- FEATURE 1 -->
+
+            <article class="feature-card">
+
+                <div class="feature-icon">
+                    ↑
+                </div>
+
+                <h3>
+                    Upload the event
+                </h3>
+
+                <p>
+                    Create an event and upload the photographs
+                    captured by your photographer. Pixelle organizes
+                    them into a private event gallery.
+                </p>
+
+            </article>
+
+
+            <!-- FEATURE 2 -->
+
+            <article class="feature-card">
+
+                <div class="feature-icon">
+                    ◉
+                </div>
+
+                <h3>
+                    Faces are indexed
+                </h3>
+
+                <p>
+                    OpenCV detects faces inside the uploaded
+                    photographs and creates numerical face
+                    representations for searching.
+                </p>
+
+            </article>
+
+
+            <!-- FEATURE 3 -->
+
+            <article class="feature-card">
+
+                <div class="feature-icon">
+                    ✦
+                </div>
+
+                <h3>
+                    Find your moments
+                </h3>
+
+                <p>
+                    Upload a clear selfie and Pixelle compares
+                    your face representation with the indexed
+                    event photos to find potential matches.
+                </p>
+
+            </article>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =====================================================
+     FINAL CTA
+     ===================================================== -->
+
+<section class="features" style="padding-top:30px;">
+
+    <div class="container">
+
+        <div
+            style="
+                text-align:center;
+                padding:70px 25px;
+                border-top:1px solid var(--border);
+            "
+        >
+
+            <span class="eyebrow">
+                READY TO FIND YOUR MOMENTS?
+            </span>
+
+            <h2 style="margin-bottom:18px;">
+                Your photos are waiting.
+            </h2>
+
+            <p
+                style="
+                    max-width:550px;
+                    margin:0 auto 25px;
+                "
+            >
+                Create an event, upload your photographs,
+                and let Pixelle help everyone find the
+                memories they are part of.
+            </p>
+
+
+            {% if session.get('user_id') %}
+
+                <a
+                    href="{{ url_for('dashboard') }}"
+                    class="btn primary"
+                >
+                    Open Dashboard →
+                </a>
+
+            {% else %}
+
+                <a
+                    href="{{ url_for('register') }}"
+                    class="btn primary"
+                >
+                    Get Started →
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+
+{% endblock %}
